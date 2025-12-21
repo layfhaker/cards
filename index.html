@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Изучение суффиксов</title>
+    <title>Изучение правил русского языка</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
@@ -18,48 +18,273 @@
             --accent-learned: #5a9d6b;
             --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
             --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --transition-speed: 0.3s;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #1a1a1a;
+            --bg-card: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent-new: #c43e3e;
+            --accent-learning: #d9a03f;
+            --accent-learned: #4a8559;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         body {
             font-family: 'Source Sans 3', sans-serif;
-            background: linear-gradient(135deg, #f5f3ed 0%, #ebe8dd 100%);
+            background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-main) 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem 1rem;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
         }
 
-        h1 {
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 2rem;
+        }
+
+        .header-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu-toggle {
+            font-size: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 0.5rem;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            transition: background-color 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Sidebar Menu */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed), visibility var(--transition-speed);
+            z-index: 999;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background: var(--bg-card);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+            transition: right var(--transition-speed);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .sidebar-menu.active {
+            right: 0;
+        }
+
+        .menu-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            transition: background-color 0.2s;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            color: var(--text-primary);
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .menu-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
+        }
+
+        .submenu {
+            margin-left: 2.5rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .submenu.active {
+            display: block;
+        }
+
+        .submenu label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Theme Selection Screen */
+        .theme-selection {
+            padding: 2rem 1rem;
+        }
+
+        .theme-selection h1 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 3rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: var(--text-primary);
             letter-spacing: -0.02em;
         }
 
-        .subtitle {
+        .theme-selection .subtitle {
             text-align: center;
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             font-size: 1.1rem;
         }
 
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .theme-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid transparent;
+            text-align: center;
+        }
+
+        .theme-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-card.suffixes {
+            border-color: #e8b34f;
+        }
+
+        .theme-card.prefixes {
+            border-color: #5a9d6b;
+        }
+
+        .theme-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .theme-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-stats {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-progress {
+            color: var(--accent-learned);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Main App Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Progress Bar */
         .progress-bar {
             background: var(--bg-card);
             border-radius: 16px;
@@ -124,6 +349,14 @@
             border-radius: 8px;
         }
 
+        .card-progress {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Card Styles */
         .card-container {
             perspective: 1000px;
             margin-bottom: 2rem;
@@ -159,15 +392,15 @@
         }
 
         .card-front {
-            background: linear-gradient(135deg, #ffffff 0%, #f9f8f6 100%);
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card) 100%);
         }
 
         .card-back {
             transform: rotateY(180deg);
-            background: linear-gradient(135deg, #f9f8f6 0%, #ffffff 100%);
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card) 100%);
         }
 
-        .card-suffix {
+        .card-suffix, .card-prefix {
             font-family: 'Cormorant Garamond', serif;
             font-size: 4rem;
             font-weight: 700;
@@ -192,7 +425,7 @@
             line-height: 1.7;
         }
 
-        .card-exceptions {
+        .card-exceptions, .card-examples {
             padding: 1rem 1.5rem;
             background: rgba(217, 78, 78, 0.08);
             border-radius: 12px;
@@ -201,9 +434,18 @@
             color: var(--text-primary);
         }
 
-        .card-exceptions strong {
+        .card-examples {
+            background: rgba(90, 157, 107, 0.08);
+            border-left: 4px solid var(--accent-learned);
+        }
+
+        .card-exceptions strong, .card-examples strong {
             color: var(--accent-new);
             font-weight: 600;
+        }
+
+        .card-examples strong {
+            color: var(--accent-learned);
         }
 
         .flip-hint {
@@ -222,6 +464,7 @@
             50% { opacity: 1; }
         }
 
+        /* Controls */
         .controls {
             display: flex;
             gap: 1rem;
@@ -243,6 +486,7 @@
             box-shadow: var(--shadow-soft);
             position: relative;
             overflow: hidden;
+            min-height: 48px;
         }
 
         .btn::before {
@@ -287,17 +531,332 @@
             transform: translateY(-2px);
         }
 
-        .btn-reset {
-            background: linear-gradient(135deg, #6b6458 0%, #5a5449 100%);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-learning) 0%, #d9a03f 100%);
             color: white;
-            max-width: 200px;
         }
 
-        .btn-reset:hover {
+        .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(232, 179, 79, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b6458 0%, #5a5449 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
             box-shadow: 0 8px 24px rgba(107, 100, 88, 0.3);
             transform: translateY(-2px);
         }
 
+        /* Test Mode */
+        .test-mode .card-back {
+            display: none;
+        }
+
+        .test-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .show-answer-btn {
+            max-width: 300px;
+        }
+
+        .test-answer-controls {
+            display: none;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .test-answer-controls.visible {
+            display: flex;
+        }
+
+        /* Test Results */
+        .test-results {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+        }
+
+        .results-percentage {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--accent-learned);
+            margin-bottom: 1rem;
+        }
+
+        .results-summary {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .mistakes-list {
+            text-align: left;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(217, 78, 78, 0.08);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-new);
+        }
+
+        .mistakes-list h3 {
+            color: var(--accent-new);
+            margin-bottom: 1rem;
+        }
+
+        .mistakes-list ul {
+            list-style-position: inside;
+        }
+
+        .mistakes-list li {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Statistics Screen */
+        .statistics-screen {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .statistics-screen h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.02);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-item-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-learned);
+        }
+
+        .stat-item-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .progress-visualization {
+            margin: 2rem 0;
+        }
+
+        .progress-visualization h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .progress-bar-item {
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar-fill {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar-inner.new {
+            background: var(--accent-new);
+        }
+
+        .progress-bar-inner.learning {
+            background: var(--accent-learning);
+        }
+
+        .progress-bar-inner.learned {
+            background: var(--accent-learned);
+        }
+
+        .problem-cards-list {
+            margin-top: 2rem;
+        }
+
+        .problem-cards-list h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .problem-card-item {
+            background: rgba(217, 78, 78, 0.08);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--accent-new);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Settings Screen */
+        .settings-screen {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .settings-screen h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .setting-item {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .setting-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-learned);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .range-input {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-learned);
+            cursor: pointer;
+        }
+
+        .range-input::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-learned);
+            cursor: pointer;
+        }
+
+        .range-value {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            color: var(--accent-learned);
+        }
+
+        /* Completion Screen */
         .completion-screen {
             text-align: center;
             padding: 3rem;
@@ -305,11 +864,6 @@
             border-radius: 20px;
             box-shadow: var(--shadow-card);
             animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .completion-screen h2 {
@@ -325,6 +879,76 @@
             margin-bottom: 2rem;
         }
 
+        /* Confetti Animation */
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-learned);
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        /* Motivational Message */
+        .motivational-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-card);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-learned);
+            z-index: 1001;
+            opacity: 0;
+            animation: messagePopup 1.5s ease;
+            pointer-events: none;
+        }
+
+        @keyframes messagePopup {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-card);
+            z-index: 1002;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--accent-learned);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--accent-new);
+        }
+
+        /* Keyboard Hints */
         .keyboard-hints {
             text-align: center;
             color: var(--text-secondary);
@@ -346,9 +970,23 @@
             margin: 0 0.25rem;
         }
 
-        @media (max-width: 600px) {
-            h1 {
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.3rem;
+            }
+
+            .sidebar-menu {
+                width: 100%;
+                right: -100%;
+            }
+
+            .theme-selection h1 {
                 font-size: 2rem;
+            }
+
+            .theme-grid {
+                grid-template-columns: 1fr;
             }
 
             .card {
@@ -359,7 +997,7 @@
                 padding: 2rem;
             }
 
-            .card-suffix {
+            .card-suffix, .card-prefix {
                 font-size: 3rem;
             }
 
@@ -374,124 +1012,692 @@
             .progress-stats {
                 flex-direction: column;
             }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-actions {
+                flex-direction: column;
+            }
+
+            .results-actions .btn {
+                max-width: none;
+            }
+
+            .toast {
+                right: 1rem;
+                left: 1rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .motivational-message {
+                font-size: 1.5rem;
+                padding: 1.5rem 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Изучение суффиксов</h1>
-        <p class="subtitle">Система интервального повторения</p>
-
-        <div class="progress-bar">
-            <div class="progress-stats">
-                <div class="stat new">
-                    <div class="stat-number" id="newCount">0</div>
-                    <div class="stat-label">Неизученные</div>
-                </div>
-                <div class="stat learning">
-                    <div class="stat-number" id="learningCount">0</div>
-                    <div class="stat-label">Изучаются</div>
-                </div>
-                <div class="stat learned">
-                    <div class="stat-number" id="learnedCount">0</div>
-                    <div class="stat-label">Изучены</div>
-                </div>
-            </div>
-            <div class="current-group" id="currentGroup"></div>
-        </div>
-
-        <div id="cardArea"></div>
-
-        <div class="keyboard-hints">
-            <kbd>Пробел</kbd> — перевернуть карточку · 
-            <kbd>←</kbd> — неправильно · 
-            <kbd>→</kbd> — правильно · 
-            <kbd>R</kbd> — сброс
+    <!-- Theme Selection Screen -->
+    <div id="themeSelectionScreen" class="screen active">
+        <div class="theme-selection">
+            <h1>Правила русского языка</h1>
+            <p class="subtitle">Выберите тему для изучения</p>
+            <div class="theme-grid" id="themeGrid"></div>
         </div>
     </div>
 
-    <script>
-        const rulesData = [
-            // Прилагательные
-            { suffix: "-ИВ-, -ЕВ-", type: "Прилагательные", rule: "Под ударением пишется -ИВ-. Без ударения пишется -ЕВ-.", exceptions: "МИЛОСТИВЫЙ, ЮРОДИВЫЙ" },
-            { suffix: "-ЛИВ-, -ЧИВ-", type: "Прилагательные", rule: "Суффиксы -ЛИВ-, -ЧИВ- всегда пишутся с буквой И.", exceptions: "У прилагательных -ЛЕВ-, -ЧЕВ- не бывает" },
-            { suffix: "-ИСТ-", type: "Прилагательные", rule: "Суффикс -ИСТ- всегда пишется с буквой И.", exceptions: "У прилагательных -ЕСТ- не бывает" },
-            { suffix: "-ЧАТ-", type: "Прилагательные", rule: "Суффикс -ЧАТ- всегда пишется с буквой А.", exceptions: "ДОЩАТЫЙ (от ДОСКА с помощью -АТ-)" },
-            { suffix: "-ЕВАТ-, -ОВАТ-", type: "Прилагательные", rule: "Суффиксы пишутся без изменения во всех словах.", exceptions: "У прилагательных -ИВАТ-, -АВАT- не бывает" },
-            { suffix: "-ЕНЬК-, -ОНЬК-", type: "Прилагательные", rule: "Суффиксы пишутся без изменения во всех словах.", exceptions: "У прилагательных -ИНЬК-, -АНЬК- не бывает" },
-            { suffix: "-ЕНСК-, -ИНСК-", type: "Прилагательные", rule: "-ИНСК- пишется в прилагательных от основ на -ИН, а также -И(Ы), -А(Я). -ЕНСК- в остальных.", exceptions: "ПЕНЗЕНСКИЙ, ПРЕСНЕНСКИЙ, КОЛОМЕНСКИЙ" },
-            { suffix: "-К-, -СК-", type: "Прилагательные", rule: "Если прилагательное имеет краткую форму или образовано от существительного с К, Ц, Ч, пишется -К-. Иначе -СК-.", exceptions: "ФРАНЦУЗСКИЙ (не имеет краткой формы и не образовано от К, Ц, Ч)" },
-            
-            // Глаголы
-            { suffix: "-ИВА-, (-ЫВА-)", type: "Глаголы", rule: "У глаголов в начальной форме и форме прошедшего времени пишется -ИВА-, (-ЫВА-), если в форме 1 лица (Я) настоящего или будущего времени глагол оканчивается на -ИВАЮ, (-ЫВАЮ).", exceptions: "" },
-            { suffix: "-ЕВА-, (-ОВА-)", type: "Глаголы", rule: "Пишется -ЕВА-, (-ОВА-), если в форме 1 лица (Я) настоящего или будущего времени глагол оканчивается на -УЮ, (-ЮЮ).", exceptions: "" },
-            { suffix: "И, Е перед -ВА-", type: "Глаголы", rule: "От глаголов с суффиксами -ИВА-, (-ЫВА-), -ЕВА-, (-ОВА-) следует отличать глаголы со всегда ударным суффиксом -ВА-. Перед ударным -ВА- пишется та же гласная буква, что и в неопределённой форме, если в ней отбросить -ВА-.", exceptions: "" },
-            
-            // Существительные
-            { suffix: "-ЕЦ-, -ИЦ-", type: "Существительные", rule: "В существительных мужского рода пишется -ЕЦ-. В существительных женского рода пишется -ИЦ-. В среднем роде: А) -ЕЦ-, если ударение падает на окончание; Б) -ИЦ-, если ударение падает не на окончание.", exceptions: "" },
-            { suffix: "-ИНК-, -ЕНК-", type: "Существительные", rule: "-ИНК- пишется в существительных, образованных от слов, оканчивающихся на -ИН(А). -ЕНК- в остальных.", exceptions: "" },
-            { suffix: "-ИЗН-, -ИН-", type: "Существительные", rule: "Суффиксы -ИЗН-, -ИН- всегда пишутся с буквой И.", exceptions: "У существительных не бывает -ЕЗН-, -ЕН-" },
-            { suffix: "-ИЧК-, -ЕЧК-", type: "Существительные", rule: "-ИЧК- пишется в существительных, образованных от слов, оканчивающихся на -ИЦ(А). -ЕЧК- в остальных.", exceptions: "" },
-            { suffix: "-ИК-, -ЕК-", type: "Существительные", rule: "-ИК- пишется, если при изменении слова гласная буква не выпадает. -ЕК- пишется, если при изменении слова гласная буква выпадает.", exceptions: "" },
-            
-            // Наречия
-            { suffix: "-А-", type: "Наречия", rule: "В наречиях с приставками ИЗ-, ДО-, С- пишется суффикс -А-.", exceptions: "" },
-            { suffix: "-О-", type: "Наречия", rule: "В наречиях с приставками В-, НА-, ЗА- пишется суффикс -О-.", exceptions: "" },
-            
-            // О, Ё после шипящих
-            { suffix: "Буква Ё", type: "После шипящих", rule: "1) в глагольном суффиксе -ЁВЫВА-; 2) в отглагольных существительных -ЁВК-; 3) в существительных -ЁР-; 4) в страдательных причастиях -ЁНН-, -ЁН-; 5) в отглагольных прилагательных -ЁН-; 6) в словах КОПЧЁНОСТИ, ТУШЁНКА", exceptions: "ЕЩЁ" },
-            { suffix: "Буква О", type: "После шипящих", rule: "После шипящих под ударением в суффиксах: 1) существительных -ОК-; 2) существительных -ОНОК-; 3) существительных -ОНК-; 4) прилагательных -ОВ-; 5) прилагательных -ОН-; 6) наречий (СВЕЖО, ГОРЯЧО, ОБЩО)", exceptions: "" }
-        ];
+    <!-- Study Screen -->
+    <div id="studyScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="app.backToThemes()">← Назад к темам</button>
+            <div class="header-title">
+                <span id="headerIcon"></span>
+                <span id="headerTitle"></span>
+            </div>
+            <button class="menu-toggle" onclick="app.toggleMenu()">☰</button>
+        </div>
 
+        <div class="container">
+            <div class="progress-bar">
+                <div class="progress-stats">
+                    <div class="stat new">
+                        <div class="stat-number" id="newCount">0</div>
+                        <div class="stat-label">Неизученные</div>
+                    </div>
+                    <div class="stat learning">
+                        <div class="stat-number" id="learningCount">0</div>
+                        <div class="stat-label">Изучаются</div>
+                    </div>
+                    <div class="stat learned">
+                        <div class="stat-number" id="learnedCount">0</div>
+                        <div class="stat-label">Изучены</div>
+                    </div>
+                </div>
+                <div class="current-group" id="currentGroup"></div>
+            </div>
+
+            <div id="cardArea"></div>
+
+            <div class="keyboard-hints">
+                <kbd>Пробел</kbd> — перевернуть карточку ·
+                <kbd>←</kbd> — неправильно ·
+                <kbd>→</kbd> — правильно
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Screen -->
+    <div id="statisticsScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="app.closeStatistics()">← Назад</button>
+            <div class="header-title">📊 Статистика</div>
+            <div style="width: 40px;"></div>
+        </div>
+        <div class="container">
+            <div class="statistics-screen" id="statisticsContent"></div>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settingsScreen" class="screen">
+        <div class="header">
+            <button class="back-btn" onclick="app.closeSettings()">← Назад</button>
+            <div class="header-title">⚙️ Настройки</div>
+            <div style="width: 40px;"></div>
+        </div>
+        <div class="container">
+            <div class="settings-screen">
+                <h2>Настройки</h2>
+
+                <div class="setting-item">
+                    <div class="setting-label">⏱️ Автоматический переворот карточки</div>
+                    <div class="setting-description">Карточка автоматически переворачивается через заданное время</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoFlipEnabled" onchange="app.updateSettings()">
+                        <span class="slider"></span>
+                    </label>
+                    <div id="autoFlipSettings" style="margin-top: 1rem; display: none;">
+                        <input type="range" class="range-input" id="autoFlipDelay" min="3" max="10" value="5" oninput="app.updateAutoFlipValue()">
+                        <div class="range-value"><span id="autoFlipValue">5</span> секунд</div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">🔊 Звуковые эффекты</div>
+                    <div class="setting-description">Воспроизводить звуки при нажатии кнопок</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="soundEnabled" onchange="app.updateSettings()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">💫 Анимации</div>
+                    <div class="setting-description">Включить анимации и визуальные эффекты</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="animationsEnabled" checked onchange="app.updateSettings()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">🔁 Количество правильных ответов</div>
+                    <div class="setting-description">Сколько раз нужно ответить правильно, чтобы карточка считалась изученной</div>
+                    <input type="range" class="range-input" id="correctNeeded" min="1" max="3" value="1" oninput="app.updateCorrectNeededValue()">
+                    <div class="range-value"><span id="correctNeededValue">1</span> раз(а)</div>
+                </div>
+
+                <button class="btn btn-primary" onclick="app.saveSettings()" style="width: 100%; max-width: none; margin-top: 2rem;">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay" onclick="app.closeMenu()"></div>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar-menu" id="sidebarMenu">
+        <button class="menu-item" onclick="app.backToThemes()">← Назад к темам</button>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item" onclick="app.toggleStudyModesSubmenu()">
+            🎯 Режимы изучения
+        </button>
+        <div class="submenu" id="studyModesSubmenu">
+            <label>
+                <input type="radio" name="studyMode" value="normal" checked onchange="app.changeStudyMode('normal')">
+                📚 Обычный
+            </label>
+            <label>
+                <input type="radio" name="studyMode" value="random" onchange="app.changeStudyMode('random')">
+                🎲 Случайный
+            </label>
+            <label>
+                <input type="radio" name="studyMode" value="problem" onchange="app.changeStudyMode('problem')">
+                ⚠️ Проблемные
+            </label>
+            <label>
+                <input type="radio" name="studyMode" value="test" onchange="app.changeStudyMode('test')">
+                ✅ Тест
+            </label>
+        </div>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item" onclick="app.toggleTheme()">
+            <span id="themeIcon">🌙</span> Темная/светлая тема
+        </button>
+
+        <button class="menu-item" onclick="app.showStatistics()">
+            📊 Статистика
+        </button>
+
+        <button class="menu-item" onclick="app.showSettings()">
+            ⚙️ Настройки
+        </button>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item" onclick="app.resetProgress()">
+            🔄 Сброс прогресса
+        </button>
+
+        <button class="menu-item" onclick="app.exportProgress()">
+            💾 Экспорт прогресса
+        </button>
+
+        <button class="menu-item" onclick="app.importProgress()">
+            📥 Импорт прогресса
+        </button>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="app.handleImportFile(event)">
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="rules-data.js"></script>
+    <script>
         class FlashcardApp {
             constructor() {
-                this.rules = rulesData.map((rule, index) => ({
-                    ...rule,
-                    id: index,
-                    group: 'new' // new, learning, learned
-                }));
-                
+                this.currentTheme = null;
                 this.currentIndex = 0;
                 this.isFlipped = false;
-                
-                this.loadProgress();
-                this.render();
-                this.attachEventListeners();
+                this.studyMode = 'normal';
+                this.testMode = {
+                    active: false,
+                    currentIndex: 0,
+                    answers: [],
+                    showingAnswer: false
+                };
+                this.settings = {
+                    autoFlipEnabled: false,
+                    autoFlipDelay: 5,
+                    soundEnabled: false,
+                    animationsEnabled: true,
+                    correctNeeded: 1,
+                    theme: 'light'
+                };
+                this.autoFlipTimer = null;
+                this.touchStartX = 0;
+                this.touchEndX = 0;
+
+                this.loadSettings();
+                this.loadAllProgress();
+                this.renderThemeSelection();
+                this.attachGlobalEventListeners();
             }
 
-            loadProgress() {
-                const saved = localStorage.getItem('suffixProgress');
+            // Settings Management
+            loadSettings() {
+                const saved = localStorage.getItem('app-settings');
                 if (saved) {
-                    const progress = JSON.parse(saved);
-                    this.rules = this.rules.map(rule => {
-                        const savedRule = progress.find(r => r.id === rule.id);
-                        return savedRule ? { ...rule, group: savedRule.group } : rule;
-                    });
+                    this.settings = { ...this.settings, ...JSON.parse(saved) };
+                }
+                this.applyTheme();
+            }
+
+            saveSettings() {
+                localStorage.setItem('app-settings', JSON.stringify(this.settings));
+                this.showToast('Настройки сохранены', 'success');
+            }
+
+            updateSettings() {
+                this.settings.autoFlipEnabled = document.getElementById('autoFlipEnabled').checked;
+                this.settings.soundEnabled = document.getElementById('soundEnabled').checked;
+                this.settings.animationsEnabled = document.getElementById('animationsEnabled').checked;
+
+                document.getElementById('autoFlipSettings').style.display =
+                    this.settings.autoFlipEnabled ? 'block' : 'none';
+            }
+
+            updateAutoFlipValue() {
+                const value = document.getElementById('autoFlipDelay').value;
+                document.getElementById('autoFlipValue').textContent = value;
+                this.settings.autoFlipDelay = parseInt(value);
+            }
+
+            updateCorrectNeededValue() {
+                const value = document.getElementById('correctNeeded').value;
+                document.getElementById('correctNeededValue').textContent = value;
+                this.settings.correctNeeded = parseInt(value);
+            }
+
+            applySettingsToUI() {
+                document.getElementById('autoFlipEnabled').checked = this.settings.autoFlipEnabled;
+                document.getElementById('soundEnabled').checked = this.settings.soundEnabled;
+                document.getElementById('animationsEnabled').checked = this.settings.animationsEnabled;
+                document.getElementById('autoFlipDelay').value = this.settings.autoFlipDelay;
+                document.getElementById('correctNeeded').value = this.settings.correctNeeded;
+                document.getElementById('autoFlipValue').textContent = this.settings.autoFlipDelay;
+                document.getElementById('correctNeededValue').textContent = this.settings.correctNeeded;
+                document.getElementById('autoFlipSettings').style.display =
+                    this.settings.autoFlipEnabled ? 'block' : 'none';
+            }
+
+            // Theme Management
+            toggleTheme() {
+                this.settings.theme = this.settings.theme === 'light' ? 'dark' : 'light';
+                this.applyTheme();
+                localStorage.setItem('theme-preference', this.settings.theme);
+            }
+
+            applyTheme() {
+                document.documentElement.setAttribute('data-theme', this.settings.theme);
+                const themeIcon = document.getElementById('themeIcon');
+                if (themeIcon) {
+                    themeIcon.textContent = this.settings.theme === 'light' ? '🌙' : '☀️';
                 }
             }
 
+            // Progress Management
+            loadAllProgress() {
+                Object.keys(themesData).forEach(themeId => {
+                    const saved = localStorage.getItem(`theme-${themeId}-progress`);
+                    if (saved) {
+                        try {
+                            const data = JSON.parse(saved);
+                            if (data.version === 1 && data.rules) {
+                                themesData[themeId].rules = themesData[themeId].rules.map((rule, index) => {
+                                    const savedRule = data.rules.find(r => r.id === index);
+                                    return savedRule ? { ...rule, ...savedRule } : {
+                                        ...rule,
+                                        id: index,
+                                        group: 'new',
+                                        stats: { shown: 0, correct: 0, incorrect: 0, lastSeen: null, correctStreak: 0 }
+                                    };
+                                });
+                            }
+                        } catch (e) {
+                            console.error('Error loading progress:', e);
+                        }
+                    } else {
+                        // Initialize rules with default stats
+                        themesData[themeId].rules = themesData[themeId].rules.map((rule, index) => ({
+                            ...rule,
+                            id: index,
+                            group: 'new',
+                            stats: { shown: 0, correct: 0, incorrect: 0, lastSeen: null, correctStreak: 0 }
+                        }));
+                    }
+                });
+            }
+
             saveProgress() {
-                const progress = this.rules.map(r => ({ id: r.id, group: r.group }));
-                localStorage.setItem('suffixProgress', JSON.stringify(progress));
+                if (!this.currentTheme) return;
+
+                const data = {
+                    version: 1,
+                    rules: themesData[this.currentTheme].rules.map(r => ({
+                        id: r.id,
+                        group: r.group,
+                        stats: r.stats
+                    }))
+                };
+
+                localStorage.setItem(`theme-${this.currentTheme}-progress`, JSON.stringify(data));
+            }
+
+            resetProgress() {
+                if (!this.currentTheme) return;
+
+                if (confirm('Точно сбросить весь прогресс для этой темы?')) {
+                    themesData[this.currentTheme].rules.forEach(rule => {
+                        rule.group = 'new';
+                        rule.stats = { shown: 0, correct: 0, incorrect: 0, lastSeen: null, correctStreak: 0 };
+                    });
+                    this.currentIndex = 0;
+                    this.saveProgress();
+                    this.closeMenu();
+                    if (this.testMode.active) {
+                        this.changeStudyMode('normal');
+                    } else {
+                        this.render();
+                    }
+                    this.showToast('Прогресс сброшен', 'success');
+                }
+            }
+
+            exportProgress() {
+                const allProgress = {};
+                Object.keys(themesData).forEach(themeId => {
+                    const saved = localStorage.getItem(`theme-${themeId}-progress`);
+                    if (saved) {
+                        allProgress[themeId] = JSON.parse(saved);
+                    }
+                });
+
+                const data = {
+                    version: 1,
+                    exportDate: new Date().toISOString(),
+                    themes: allProgress,
+                    settings: this.settings
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `russian-rules-progress-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                this.closeMenu();
+                this.showToast('Прогресс экспортирован', 'success');
+            }
+
+            importProgress() {
+                document.getElementById('importFileInput').click();
+                this.closeMenu();
+            }
+
+            handleImportFile(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+
+                        if (!data.version || !data.themes) {
+                            this.showToast('Неверный формат файла', 'error');
+                            return;
+                        }
+
+                        // Import theme progress
+                        Object.keys(data.themes).forEach(themeId => {
+                            localStorage.setItem(`theme-${themeId}-progress`, JSON.stringify(data.themes[themeId]));
+                        });
+
+                        // Import settings if available
+                        if (data.settings) {
+                            this.settings = { ...this.settings, ...data.settings };
+                            this.saveSettings();
+                            this.applyTheme();
+                        }
+
+                        // Reload progress
+                        this.loadAllProgress();
+                        this.renderThemeSelection();
+
+                        this.showToast('Прогресс импортирован успешно', 'success');
+                    } catch (error) {
+                        console.error('Import error:', error);
+                        this.showToast('Ошибка при импорте файла', 'error');
+                    }
+                };
+                reader.readAsText(file);
+
+                // Reset file input
+                event.target.value = '';
+            }
+
+            // Theme Selection
+            renderThemeSelection() {
+                const grid = document.getElementById('themeGrid');
+                grid.innerHTML = '';
+
+                Object.keys(themesData).forEach(themeId => {
+                    const theme = themesData[themeId];
+                    const totalRules = theme.rules.length;
+                    const learnedRules = theme.rules.filter(r => r.group === 'learned').length;
+
+                    const card = document.createElement('div');
+                    card.className = `theme-card ${themeId}`;
+                    card.innerHTML = `
+                        <div class="theme-icon">${theme.icon}</div>
+                        <div class="theme-name">${theme.name}</div>
+                        <div class="theme-stats">Всего правил: ${totalRules}</div>
+                        <div class="theme-progress">${learnedRules} из ${totalRules} изучено</div>
+                    `;
+                    card.onclick = () => this.selectTheme(themeId);
+                    grid.appendChild(card);
+                });
+            }
+
+            selectTheme(themeId) {
+                this.currentTheme = themeId;
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.studyMode = 'normal';
+
+                // Update header
+                document.getElementById('headerIcon').textContent = themesData[themeId].icon;
+                document.getElementById('headerTitle').textContent = themesData[themeId].name;
+
+                // Switch to study screen
+                this.showScreen('studyScreen');
+                this.render();
+            }
+
+            backToThemes() {
+                this.currentTheme = null;
+                this.closeMenu();
+                this.showScreen('themeSelectionScreen');
+                this.renderThemeSelection();
+            }
+
+            // Screen Management
+            showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                document.getElementById(screenId).classList.add('active');
+            }
+
+            // Menu Management
+            toggleMenu() {
+                const overlay = document.getElementById('menuOverlay');
+                const menu = document.getElementById('sidebarMenu');
+                overlay.classList.toggle('active');
+                menu.classList.toggle('active');
+            }
+
+            closeMenu() {
+                const overlay = document.getElementById('menuOverlay');
+                const menu = document.getElementById('sidebarMenu');
+                overlay.classList.remove('active');
+                menu.classList.remove('active');
+            }
+
+            toggleStudyModesSubmenu() {
+                const submenu = document.getElementById('studyModesSubmenu');
+                submenu.classList.toggle('active');
+            }
+
+            // Study Mode Management
+            changeStudyMode(mode) {
+                this.studyMode = mode;
+                this.currentIndex = 0;
+                this.closeMenu();
+
+                if (mode === 'test') {
+                    this.startTestMode();
+                } else {
+                    this.testMode.active = false;
+                    this.render();
+                }
+            }
+
+            // Statistics
+            showStatistics() {
+                this.closeMenu();
+                this.showScreen('statisticsScreen');
+                this.renderStatistics();
+            }
+
+            closeStatistics() {
+                this.showScreen('studyScreen');
+            }
+
+            renderStatistics() {
+                if (!this.currentTheme) return;
+
+                const theme = themesData[this.currentTheme];
+                const rules = theme.rules;
+                const totalRules = rules.length;
+                const newCount = rules.filter(r => r.group === 'new').length;
+                const learningCount = rules.filter(r => r.group === 'learning').length;
+                const learnedCount = rules.filter(r => r.group === 'learned').length;
+
+                const totalShown = rules.reduce((sum, r) => sum + r.stats.shown, 0);
+                const totalCorrect = rules.reduce((sum, r) => sum + r.stats.correct, 0);
+                const totalIncorrect = rules.reduce((sum, r) => sum + r.stats.incorrect, 0);
+                const correctPercentage = totalShown > 0 ? Math.round((totalCorrect / totalShown) * 100) : 0;
+
+                // Find problem cards (incorrect >= 2)
+                const problemCards = rules.filter(r => r.stats.incorrect >= 2)
+                    .sort((a, b) => b.stats.incorrect - a.stats.incorrect)
+                    .slice(0, 5);
+
+                const content = document.getElementById('statisticsContent');
+                content.innerHTML = `
+                    <h2>Статистика: ${theme.name}</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-item-value">${totalRules}</div>
+                            <div class="stat-item-label">Всего правил</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-item-value">${learnedCount}</div>
+                            <div class="stat-item-label">Изучено (${Math.round(learnedCount/totalRules*100)}%)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-item-value">${correctPercentage}%</div>
+                            <div class="stat-item-label">Правильных ответов</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-item-value">${problemCards.length}</div>
+                            <div class="stat-item-label">Проблемных карточек</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-item-value">${totalShown}</div>
+                            <div class="stat-item-label">Просмотров карточек</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-visualization">
+                        <h3>Распределение карточек</h3>
+                        <div class="progress-bar-item">
+                            <div class="progress-bar-label">
+                                <span>Неизученные</span>
+                                <span>${newCount} (${Math.round(newCount/totalRules*100)}%)</span>
+                            </div>
+                            <div class="progress-bar-fill">
+                                <div class="progress-bar-inner new" style="width: ${newCount/totalRules*100}%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-bar-item">
+                            <div class="progress-bar-label">
+                                <span>Изучаются</span>
+                                <span>${learningCount} (${Math.round(learningCount/totalRules*100)}%)</span>
+                            </div>
+                            <div class="progress-bar-fill">
+                                <div class="progress-bar-inner learning" style="width: ${learningCount/totalRules*100}%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-bar-item">
+                            <div class="progress-bar-label">
+                                <span>Изучены</span>
+                                <span>${learnedCount} (${Math.round(learnedCount/totalRules*100)}%)</span>
+                            </div>
+                            <div class="progress-bar-fill">
+                                <div class="progress-bar-inner learned" style="width: ${learnedCount/totalRules*100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${problemCards.length > 0 ? `
+                        <div class="problem-cards-list">
+                            <h3>Топ-5 проблемных правил</h3>
+                            ${problemCards.map(card => {
+                                const title = card.suffix || card.prefix;
+                                return `
+                                    <div class="problem-card-item">
+                                        <span>${title}</span>
+                                        <span>${card.stats.incorrect} ошибок</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    ` : ''}
+                `;
+            }
+
+            // Settings Screen
+            showSettings() {
+                this.closeMenu();
+                this.showScreen('settingsScreen');
+                this.applySettingsToUI();
+            }
+
+            closeSettings() {
+                this.showScreen('studyScreen');
+            }
+
+            // Study Functions
+            getCurrentCards() {
+                if (!this.currentTheme) return [];
+
+                const rules = themesData[this.currentTheme].rules;
+
+                switch (this.studyMode) {
+                    case 'random':
+                        return [...rules].sort(() => Math.random() - 0.5);
+
+                    case 'problem':
+                        return rules.filter(r => r.stats.incorrect >= 2);
+
+                    case 'normal':
+                    default:
+                        const group = this.getCurrentGroup();
+                        if (group === 'completed') return [];
+                        return rules.filter(r => r.group === group);
+                }
             }
 
             getCurrentGroup() {
-                if (this.rules.filter(r => r.group === 'new').length > 0) return 'new';
-                if (this.rules.filter(r => r.group === 'learning').length > 0) return 'learning';
-                if (this.rules.filter(r => r.group === 'learned').length > 0) return 'learned';
+                const rules = themesData[this.currentTheme].rules;
+                if (rules.filter(r => r.group === 'new').length > 0) return 'new';
+                if (rules.filter(r => r.group === 'learning').length > 0) return 'learning';
+                if (rules.filter(r => r.group === 'learned').length > 0) return 'learned';
                 return 'completed';
             }
 
-            getCurrentCards() {
-                const group = this.getCurrentGroup();
-                if (group === 'completed') return [];
-                return this.rules.filter(r => r.group === group);
-            }
-
             updateProgress() {
-                const newCount = this.rules.filter(r => r.group === 'new').length;
-                const learningCount = this.rules.filter(r => r.group === 'learning').length;
-                const learnedCount = this.rules.filter(r => r.group === 'learned').length;
+                const rules = themesData[this.currentTheme].rules;
+                const newCount = rules.filter(r => r.group === 'new').length;
+                const learningCount = rules.filter(r => r.group === 'learning').length;
+                const learnedCount = rules.filter(r => r.group === 'learned').length;
 
                 document.getElementById('newCount').textContent = newCount;
                 document.getElementById('learningCount').textContent = learningCount;
@@ -504,22 +1710,45 @@
                     'completed': 'Все правила изучены!'
                 };
 
-                document.getElementById('currentGroup').textContent = groupNames[this.getCurrentGroup()];
+                let currentGroupText = '';
+                if (this.studyMode === 'random') {
+                    currentGroupText = 'Режим: Случайный порядок';
+                } else if (this.studyMode === 'problem') {
+                    const problemCount = rules.filter(r => r.stats.incorrect >= 2).length;
+                    currentGroupText = `Режим: Проблемные карточки (${problemCount})`;
+                } else {
+                    currentGroupText = groupNames[this.getCurrentGroup()];
+                }
+
+                document.getElementById('currentGroup').textContent = currentGroupText;
             }
 
             render() {
+                if (!this.currentTheme) return;
+
                 this.updateProgress();
                 const cardArea = document.getElementById('cardArea');
                 const currentCards = this.getCurrentCards();
 
                 if (currentCards.length === 0) {
+                    let message = 'Поздравляю! Ты изучил все правила!';
+                    let buttonText = 'Начать заново';
+
+                    if (this.studyMode === 'problem') {
+                        message = 'У тебя нет проблемных карточек!';
+                        buttonText = 'Вернуться к обычному режиму';
+                    }
+
                     cardArea.innerHTML = `
                         <div class="completion-screen">
-                            <h2>🎉 Поздравляю!</h2>
-                            <p>Ты изучил все правила суффиксов!</p>
-                            <button class="btn btn-reset" onclick="app.resetProgress()">Начать заново</button>
+                            <h2>🎉 ${message}</h2>
+                            <button class="btn btn-primary" onclick="app.handleCompletionAction()">${buttonText}</button>
                         </div>
                     `;
+
+                    if (this.settings.animationsEnabled && this.studyMode === 'normal') {
+                        this.showConfetti();
+                    }
                     return;
                 }
 
@@ -530,21 +1759,32 @@
                 const currentRule = currentCards[this.currentIndex];
                 this.isFlipped = false;
 
+                // Clear any existing auto-flip timer
+                if (this.autoFlipTimer) {
+                    clearTimeout(this.autoFlipTimer);
+                    this.autoFlipTimer = null;
+                }
+
+                const isPrefix = this.currentTheme === 'prefixes';
+                const mainField = isPrefix ? currentRule.prefix : currentRule.suffix;
+                const extraField = isPrefix ?
+                    (currentRule.examples ? `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '') :
+                    (currentRule.exceptions ? `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '');
+
                 cardArea.innerHTML = `
+                    <div class="card-progress">
+                        Карточка ${this.currentIndex + 1} из ${currentCards.length}
+                    </div>
                     <div class="card-container">
                         <div class="card" id="card">
                             <div class="card-face card-front">
                                 <div class="card-type">${currentRule.type}</div>
-                                <div class="card-suffix">${currentRule.suffix}</div>
+                                <div class="${isPrefix ? 'card-prefix' : 'card-suffix'}">${mainField}</div>
                                 <div class="flip-hint">Нажми, чтобы увидеть правило</div>
                             </div>
                             <div class="card-face card-back">
                                 <div class="card-rule">${currentRule.rule}</div>
-                                ${currentRule.exceptions ? `
-                                    <div class="card-exceptions">
-                                        <strong>Исключения:</strong> ${currentRule.exceptions}
-                                    </div>
-                                ` : ''}
+                                ${extraField}
                             </div>
                         </div>
                     </div>
@@ -559,6 +1799,26 @@
                 `;
 
                 this.attachCardListeners();
+
+                // Update stats
+                currentRule.stats.shown++;
+                currentRule.stats.lastSeen = new Date().toISOString();
+                this.saveProgress();
+
+                // Auto-flip if enabled
+                if (this.settings.autoFlipEnabled && !this.isFlipped) {
+                    this.autoFlipTimer = setTimeout(() => {
+                        this.flipCard();
+                    }, this.settings.autoFlipDelay * 1000);
+                }
+            }
+
+            handleCompletionAction() {
+                if (this.studyMode === 'problem') {
+                    this.changeStudyMode('normal');
+                } else {
+                    this.resetProgress();
+                }
             }
 
             attachCardListeners() {
@@ -569,23 +1829,33 @@
                 card.addEventListener('click', () => this.flipCard());
                 btnWrong.addEventListener('click', () => this.markWrong());
                 btnCorrect.addEventListener('click', () => this.markCorrect());
+
+                // Touch events for swipe
+                card.addEventListener('touchstart', (e) => {
+                    this.touchStartX = e.changedTouches[0].screenX;
+                });
+
+                card.addEventListener('touchend', (e) => {
+                    this.touchEndX = e.changedTouches[0].screenX;
+                    this.handleSwipe();
+                });
             }
 
-            attachEventListeners() {
-                document.addEventListener('keydown', (e) => {
-                    if (e.code === 'Space') {
-                        e.preventDefault();
-                        this.flipCard();
-                    } else if (e.code === 'ArrowLeft') {
-                        this.markWrong();
-                    } else if (e.code === 'ArrowRight') {
+            handleSwipe() {
+                if (!this.isFlipped) return;
+
+                const swipeThreshold = 100;
+                const diff = this.touchEndX - this.touchStartX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe right - correct
                         this.markCorrect();
-                    } else if (e.code === 'KeyR') {
-                        if (confirm('Сбросить весь прогресс?')) {
-                            this.resetProgress();
-                        }
+                    } else {
+                        // Swipe left - wrong
+                        this.markWrong();
                     }
-                });
+                }
             }
 
             flipCard() {
@@ -593,17 +1863,35 @@
                 if (card) {
                     this.isFlipped = !this.isFlipped;
                     card.classList.toggle('flipped');
+
+                    if (this.settings.soundEnabled && this.isFlipped) {
+                        this.playSound();
+                    }
+
+                    // Clear auto-flip timer when manually flipped
+                    if (this.autoFlipTimer) {
+                        clearTimeout(this.autoFlipTimer);
+                        this.autoFlipTimer = null;
+                    }
                 }
             }
 
             markWrong() {
                 if (!this.isFlipped) return;
-                
+
                 const currentCards = this.getCurrentCards();
                 const currentRule = currentCards[this.currentIndex];
-                
-                // Остается в текущей группе (не меняется)
-                
+                const ruleInMain = themesData[this.currentTheme].rules.find(r => r.id === currentRule.id);
+
+                ruleInMain.stats.incorrect++;
+                ruleInMain.stats.correctStreak = 0;
+
+                if (this.settings.soundEnabled) {
+                    this.playSound();
+                }
+
+                this.vibrate(50);
+
                 this.currentIndex++;
                 this.saveProgress();
                 this.render();
@@ -611,33 +1899,332 @@
 
             markCorrect() {
                 if (!this.isFlipped) return;
-                
+
                 const currentCards = this.getCurrentCards();
                 const currentRule = currentCards[this.currentIndex];
-                const ruleInMain = this.rules.find(r => r.id === currentRule.id);
-                
-                // Переход в следующую группу
-                if (ruleInMain.group === 'new') {
+                const ruleInMain = themesData[this.currentTheme].rules.find(r => r.id === currentRule.id);
+
+                ruleInMain.stats.correct++;
+                ruleInMain.stats.correctStreak = (ruleInMain.stats.correctStreak || 0) + 1;
+
+                // Move to next group based on correct streak
+                if (ruleInMain.group === 'new' && ruleInMain.stats.correctStreak >= this.settings.correctNeeded) {
                     ruleInMain.group = 'learning';
-                } else if (ruleInMain.group === 'learning') {
+                    ruleInMain.stats.correctStreak = 0;
+                } else if (ruleInMain.group === 'learning' && ruleInMain.stats.correctStreak >= this.settings.correctNeeded) {
                     ruleInMain.group = 'learned';
+                    ruleInMain.stats.correctStreak = 0;
+
+                    if (this.settings.animationsEnabled) {
+                        this.showMotivationalMessage();
+                    }
                 }
-                
+
+                if (this.settings.soundEnabled) {
+                    this.playSound();
+                }
+
+                this.vibrate(30);
+
                 this.currentIndex++;
                 this.saveProgress();
                 this.render();
             }
 
-            resetProgress() {
-                if (confirm('Точно сбросить весь прогресс?')) {
-                    localStorage.removeItem('suffixProgress');
-                    this.rules.forEach(rule => rule.group = 'new');
-                    this.currentIndex = 0;
-                    this.render();
+            // Test Mode
+            startTestMode() {
+                const rules = themesData[this.currentTheme].rules;
+                const testCards = [...rules].sort(() => Math.random() - 0.5);
+
+                this.testMode = {
+                    active: true,
+                    cards: testCards,
+                    currentIndex: 0,
+                    answers: [],
+                    showingAnswer: false
+                };
+
+                this.renderTestCard();
+            }
+
+            renderTestCard() {
+                if (!this.testMode.active) return;
+
+                this.updateProgress();
+                const cardArea = document.getElementById('cardArea');
+                const { cards, currentIndex, answers } = this.testMode;
+
+                if (currentIndex >= cards.length) {
+                    this.showTestResults();
+                    return;
                 }
+
+                const currentRule = cards[currentIndex];
+                const isPrefix = this.currentTheme === 'prefixes';
+                const mainField = isPrefix ? currentRule.prefix : currentRule.suffix;
+
+                cardArea.innerHTML = `
+                    <div class="card-progress">
+                        Вопрос ${currentIndex + 1} из ${cards.length}
+                    </div>
+                    <div class="card-container">
+                        <div class="card" id="card">
+                            <div class="card-face card-front">
+                                <div class="card-type">${currentRule.type}</div>
+                                <div class="${isPrefix ? 'card-prefix' : 'card-suffix'}">${mainField}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-controls">
+                        <button class="btn btn-primary show-answer-btn" id="showAnswerBtn" onclick="app.showTestAnswer()">
+                            Показать ответ
+                        </button>
+                        <div class="test-answer-controls" id="testAnswerControls">
+                            <button class="btn btn-wrong" onclick="app.answerTest(false)">
+                                Неправильно ✗
+                            </button>
+                            <button class="btn btn-correct" onclick="app.answerTest(true)">
+                                Правильно ✓
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                this.testMode.showingAnswer = false;
+            }
+
+            showTestAnswer() {
+                if (this.testMode.showingAnswer) return;
+
+                const { cards, currentIndex } = this.testMode;
+                const currentRule = cards[currentIndex];
+                const isPrefix = this.currentTheme === 'prefixes';
+
+                const card = document.getElementById('card');
+                const extraField = isPrefix ?
+                    (currentRule.examples ? `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '') :
+                    (currentRule.exceptions ? `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '');
+
+                card.innerHTML += `
+                    <div class="card-face card-back" style="position: relative; backface-visibility: visible;">
+                        <div class="card-rule">${currentRule.rule}</div>
+                        ${extraField}
+                    </div>
+                `;
+
+                document.getElementById('showAnswerBtn').style.display = 'none';
+                document.getElementById('testAnswerControls').classList.add('visible');
+
+                this.testMode.showingAnswer = true;
+            }
+
+            answerTest(isCorrect) {
+                if (!this.testMode.showingAnswer) return;
+
+                const { cards, currentIndex } = this.testMode;
+                const currentRule = cards[currentIndex];
+
+                this.testMode.answers.push({
+                    rule: currentRule,
+                    correct: isCorrect
+                });
+
+                // Update stats
+                const ruleInMain = themesData[this.currentTheme].rules.find(r => r.id === currentRule.id);
+                if (isCorrect) {
+                    ruleInMain.stats.correct++;
+                } else {
+                    ruleInMain.stats.incorrect++;
+                }
+                this.saveProgress();
+
+                this.testMode.currentIndex++;
+                this.renderTestCard();
+            }
+
+            showTestResults() {
+                const { answers, cards } = this.testMode;
+                const correctCount = answers.filter(a => a.correct).length;
+                const totalCount = answers.length;
+                const percentage = Math.round((correctCount / totalCount) * 100);
+
+                const mistakes = answers.filter(a => !a.correct);
+                const isPrefix = this.currentTheme === 'prefixes';
+
+                const cardArea = document.getElementById('cardArea');
+                cardArea.innerHTML = `
+                    <div class="test-results">
+                        <div class="results-percentage">${percentage}%</div>
+                        <div class="results-summary">${correctCount} из ${totalCount} правильных</div>
+
+                        ${mistakes.length > 0 ? `
+                            <div class="mistakes-list">
+                                <h3>Ошибки (${mistakes.length}):</h3>
+                                <ul>
+                                    ${mistakes.map(m => {
+                                        const title = isPrefix ? m.rule.prefix : m.rule.suffix;
+                                        return `<li>${title} — ${m.rule.type}</li>`;
+                                    }).join('')}
+                                </ul>
+                            </div>
+                        ` : `
+                            <div style="font-size: 1.5rem; color: var(--accent-learned); margin: 2rem 0;">
+                                🎉 Отлично! Все ответы правильные!
+                            </div>
+                        `}
+
+                        <div class="results-actions">
+                            <button class="btn btn-primary" onclick="app.retryTest()">
+                                Пройти заново
+                            </button>
+                            ${mistakes.length > 0 ? `
+                                <button class="btn btn-secondary" onclick="app.studyMistakes()">
+                                    Изучить ошибки
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-primary" onclick="app.changeStudyMode('normal')">
+                                Вернуться к карточкам
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                if (this.settings.animationsEnabled && percentage === 100) {
+                    this.showConfetti();
+                }
+            }
+
+            retryTest() {
+                this.startTestMode();
+            }
+
+            studyMistakes() {
+                // Create temporary problem mode with mistakes
+                this.studyMode = 'problem';
+                this.testMode.active = false;
+                this.currentIndex = 0;
+                this.render();
+            }
+
+            // Helper Functions
+            playSound() {
+                // Simple click sound using Web Audio API
+                if (!this.settings.soundEnabled) return;
+
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                } catch (e) {
+                    console.log('Audio not supported');
+                }
+            }
+
+            vibrate(duration) {
+                if (navigator.vibrate) {
+                    navigator.vibrate(duration);
+                }
+            }
+
+            showMotivationalMessage() {
+                const messages = [
+                    'Отлично! 🎉',
+                    'Так держать! 💪',
+                    'Превосходно! ⭐',
+                    'Молодец! 👏',
+                    'Великолепно! 🌟'
+                ];
+
+                const message = messages[Math.floor(Math.random() * messages.length)];
+
+                const div = document.createElement('div');
+                div.className = 'motivational-message';
+                div.textContent = message;
+                document.body.appendChild(div);
+
+                setTimeout(() => {
+                    document.body.removeChild(div);
+                }, 1500);
+            }
+
+            showConfetti() {
+                const colors = ['#e8b34f', '#5a9d6b', '#d94e4e'];
+                const confettiCount = 50;
+
+                for (let i = 0; i < confettiCount; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + 'vw';
+                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                        document.body.appendChild(confetti);
+
+                        setTimeout(() => {
+                            document.body.removeChild(confetti);
+                        }, 3000);
+                    }, i * 30);
+                }
+            }
+
+            showToast(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.className = `toast ${type}`;
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            // Global Event Listeners
+            attachGlobalEventListeners() {
+                document.addEventListener('keydown', (e) => {
+                    // Only handle keyboard shortcuts on study screen
+                    if (!document.getElementById('studyScreen').classList.contains('active')) {
+                        return;
+                    }
+
+                    if (this.testMode.active) {
+                        // Test mode keyboard shortcuts
+                        if (e.code === 'Space' && !this.testMode.showingAnswer) {
+                            e.preventDefault();
+                            this.showTestAnswer();
+                        } else if (e.code === 'ArrowLeft' && this.testMode.showingAnswer) {
+                            this.answerTest(false);
+                        } else if (e.code === 'ArrowRight' && this.testMode.showingAnswer) {
+                            this.answerTest(true);
+                        }
+                    } else {
+                        // Normal mode keyboard shortcuts
+                        if (e.code === 'Space') {
+                            e.preventDefault();
+                            this.flipCard();
+                        } else if (e.code === 'ArrowLeft') {
+                            this.markWrong();
+                        } else if (e.code === 'ArrowRight') {
+                            this.markCorrect();
+                        }
+                    }
+                });
             }
         }
 
+        // Initialize app
         const app = new FlashcardApp();
     </script>
 </body>

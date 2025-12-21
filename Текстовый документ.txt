@@ -1,0 +1,198 @@
+ENGLISH PROMPT FOR HTML MODIFICATION:
+
+Modify the existing suffixes-flashcards.html file with the following comprehensive changes:
+1. DATA ARCHITECTURE
+Create a separate file rules-data.js to store all rules data:
+javascriptconst themesData = {
+  "suffixes": {
+    name: "Суффиксы",
+    icon: "📝",
+    color: "#e8b34f",
+    rules: [
+      // Transfer all existing suffix rules from HTML here
+      { suffix: "...", type: "...", rule: "...", exceptions: "..." }
+    ]
+  },
+  "prefixes": {
+    name: "Приставки", 
+    icon: "🔤",
+    color: "#5a9d6b",
+    rules: [
+      // ADD PREFIX RULES - see complete list at end of this prompt
+      // FORMAT: { prefix: "...", type: "...", rule: "...", examples: "..." }
+    ]
+  }
+};
+Connect in HTML: <script src="rules-data.js"></script> BEFORE main script
+2. THEME SELECTION SCREEN
+Initial screen on app load:
+
+Responsive grid of theme cards (2-3 columns, adapts to mobile)
+Each theme card displays:
+
+Large icon (emoji)
+Theme name
+Total rules count
+Progress: "X из Y изучено" (X of Y learned)
+Colored accent border matching theme color
+
+
+Smooth hover animation (scale 1.02, shadow increase)
+Click animation → fade transition to study screen
+"← Назад к темам" button in header during study (preserves progress)
+
+3. MAIN INTERFACE REDESIGN
+Header:
+
+Left: Current theme name + icon
+Right: Hamburger menu icon (☰)
+
+Sidebar Menu (slides from right, overlay darkens background):
+
+← Назад к темам (Back to themes)
+🎯 Режимы изучения (Study modes - submenu)
+🌙 Темная/светлая тема (Dark/light theme toggle)
+📊 Статистика (Statistics)
+⚙️ Настройки (Settings)
+🔄 Сброс прогресса (Reset progress for current theme)
+💾 Экспорт прогресса (Export progress)
+📥 Импорт прогресса (Import progress)
+
+4. STUDY MODES (Radio buttons in menu)
+
+📚 Обычный (Normal): Current 3-group logic (new → learning → learned)
+🎲 Случайный (Random): Cards in random order, ignoring groups
+⚠️ Проблемные (Problem cards): Only cards marked wrong ≥2 times
+✅ Тест (Test mode): See section 5
+
+5. TEST MODE
+Display:
+
+Show only question (suffix/prefix)
+"Показать ответ" (Show answer) button instead of flip-on-click
+After showing answer: Two buttons "Правильно ✓" / "Неправильно ✗"
+
+Results screen at end:
+
+Large percentage display (e.g., "85%")
+"X из Y правильных" (X of Y correct)
+List of mistakes (which rules were wrong)
+Buttons:
+
+"Пройти заново" (Retry test)
+"Изучить ошибки" (Study mistakes)
+"Вернуться к карточкам" (Back to flashcards)
+
+
+
+6. STATISTICS SCREEN (in menu)
+For current theme:
+
+Total rules: X
+Learned: X (Y%)
+Correct answers: X%
+Problem cards: X
+Cards viewed: X times
+
+Visualization:
+
+Simple progress bars (3 colored bars: new/learning/learned)
+Top 5 problem rules (most mistakes)
+
+7. SETTINGS SCREEN (in menu)
+
+⏱️ Auto-flip card after X seconds (checkbox + slider 3-10 sec)
+🔊 Sound effects (checkbox, simple "click" on buttons)
+💫 Animations (checkbox on/off)
+🔁 Times "Correct" needed to mark as "Learned": slider 1-3
+"Сохранить" (Save) button at bottom
+
+8. DARK THEME
+Toggle in menu (switch with 🌙/☀️ icon):
+
+Save to localStorage
+Smooth transition: 0.3s for all colors
+Dark palette:
+
+Background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)
+Cards: #2d2d2d
+Text: #e0e0e0
+Keep red/yellow/green accents but slightly darker
+
+
+
+9. EXPORT/IMPORT
+Export:
+
+Download russian-rules-progress.json with all progress
+Include version number for future migrations
+
+Import:
+
+<input type="file" accept=".json">
+Validate format
+Merge with current progress (don't overwrite newer data)
+Show toast notification on success/error
+
+10. UX IMPROVEMENTS
+
+Vibration on mobile when pressing buttons (if supported): navigator.vibrate(50)
+Progress indicator under card: "Карточка 5 из 20" (Card 5 of 20)
+Confetti animation when completing all cards in theme (lightweight CSS animation)
+Motivational messages on correct: "Отлично! 🎉", "Так держать! 💪"
+Smooth screen transitions (fade + slide)
+Optional: Swipe left/right on mobile for wrong/correct
+Keyboard shortcuts still work: Space (flip), Left (wrong), Right (correct)
+Remove keyboard "R" for reset - only in menu now
+
+11. DATA TRACKING
+Store for each rule:
+javascript{
+  ...rule,
+  stats: {
+    shown: 0,        // times shown
+    correct: 0,      // times correct
+    incorrect: 0,    // times incorrect
+    lastSeen: null   // timestamp
+  }
+}
+12. RESPONSIVE DESIGN
+
+Menu on mobile: fullscreen overlay
+Cards on mobile: increased padding
+Buttons on mobile: minimum 48px height (tap target)
+Test on iOS Safari and Android Chrome
+Touch-friendly interactions
+
+DESIGN PRESERVATION
+
+Keep Cormorant Garamond + Source Sans 3 fonts
+All new screens match existing style (cream background, soft shadows)
+Smooth transitions with cubic-bezier easing
+Icons: Unicode emoji (universal, no loading required)
+Group colors: #d94e4e (red), #e8b34f (yellow), #5a9d6b (green)
+
+TECHNICAL REQUIREMENTS
+
+All code in one HTML file (except rules-data.js)
+localStorage keys:
+
+theme-{themeId}-progress: per-theme progress
+app-settings: app-wide settings
+theme-preference: light/dark theme
+
+
+Data versioning: {version: 1, data: {...}} for future migrations
+Validate data when loading from localStorage
+Fallback if localStorage unavailable (graceful degradation)
+Code should be clean, commented, and maintainable
+
+IMPLEMENTATION PRIORITY
+If needed to implement in stages:
+
+Theme selection + rules-data.js with both themes
+Menu + dark theme + reset button in menu (not keyboard)
+Study modes
+Statistics
+Settings
+Export/import
