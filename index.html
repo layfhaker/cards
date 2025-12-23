@@ -245,6 +245,10 @@
             border-color: #5a9d6b;
         }
 
+        .theme-card.roots {
+            border-color: #8b5cf6;
+        }
+
         .theme-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
@@ -400,13 +404,17 @@
             background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card) 100%);
         }
 
-        .card-suffix, .card-prefix {
+        .card-suffix, .card-prefix, .card-root {
             font-family: 'Cormorant Garamond', serif;
             font-size: 4rem;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 1rem;
             letter-spacing: 0.05em;
+        }
+
+        .card-root {
+            font-size: 2.5rem;
         }
 
         .card-type {
@@ -432,6 +440,7 @@
             border-left: 4px solid var(--accent-new);
             font-size: 1rem;
             color: var(--text-primary);
+            margin-top: 0.75rem;
         }
 
         .card-examples {
@@ -446,6 +455,14 @@
 
         .card-examples strong {
             color: var(--accent-learned);
+        }
+
+        .card-notes {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 100%;
         }
 
         .flip-hint {
@@ -1578,6 +1595,8 @@
                     .sort((a, b) => b.stats.incorrect - a.stats.incorrect)
                     .slice(0, 5);
 
+                const isRoot = this.currentTheme === 'roots';
+
                 const content = document.getElementById('statisticsContent');
                 content.innerHTML = `
                     <h2>Статистика: ${theme.name}</h2>
@@ -1640,7 +1659,7 @@
                         <div class="problem-cards-list">
                             <h3>Топ-5 проблемных правил</h3>
                             ${problemCards.map(card => {
-                                const title = card.suffix || card.prefix;
+                                const title = isRoot ? card.root : (card.suffix || card.prefix);
                                 return `
                                     <div class="problem-card-item">
                                         <span>${title}</span>
@@ -1766,10 +1785,17 @@
                 }
 
                 const isPrefix = this.currentTheme === 'prefixes';
-                const mainField = isPrefix ? currentRule.prefix : currentRule.suffix;
-                const extraField = isPrefix ?
-                    (currentRule.examples ? `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '') :
-                    (currentRule.exceptions ? `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '');
+                const isRoot = this.currentTheme === 'roots';
+                const mainField = isRoot ? currentRule.root : (isPrefix ? currentRule.prefix : currentRule.suffix);
+                const mainFieldClass = isRoot ? 'card-root' : (isPrefix ? 'card-prefix' : 'card-suffix');
+
+                // Формируем блоки исключений и примеров
+                const exceptionsField = currentRule.exceptions ?
+                    `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '';
+                const examplesField = currentRule.examples ?
+                    `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '';
+                const notesBlock = (exceptionsField || examplesField) ?
+                    `<div class="card-notes">${exceptionsField}${examplesField}</div>` : '';
 
                 cardArea.innerHTML = `
                     <div class="card-progress">
@@ -1779,12 +1805,12 @@
                         <div class="card" id="card">
                             <div class="card-face card-front">
                                 <div class="card-type">${currentRule.type}</div>
-                                <div class="${isPrefix ? 'card-prefix' : 'card-suffix'}">${mainField}</div>
+                                <div class="${mainFieldClass}">${mainField}</div>
                                 <div class="flip-hint">Нажми, чтобы увидеть правило</div>
                             </div>
                             <div class="card-face card-back">
                                 <div class="card-rule">${currentRule.rule}</div>
-                                ${extraField}
+                                ${notesBlock}
                             </div>
                         </div>
                     </div>
@@ -1961,7 +1987,9 @@
 
                 const currentRule = cards[currentIndex];
                 const isPrefix = this.currentTheme === 'prefixes';
-                const mainField = isPrefix ? currentRule.prefix : currentRule.suffix;
+                const isRoot = this.currentTheme === 'roots';
+                const mainField = isRoot ? currentRule.root : (isPrefix ? currentRule.prefix : currentRule.suffix);
+                const mainFieldClass = isRoot ? 'card-root' : (isPrefix ? 'card-prefix' : 'card-suffix');
 
                 cardArea.innerHTML = `
                     <div class="card-progress">
@@ -1971,7 +1999,7 @@
                         <div class="card" id="card">
                             <div class="card-face card-front">
                                 <div class="card-type">${currentRule.type}</div>
-                                <div class="${isPrefix ? 'card-prefix' : 'card-suffix'}">${mainField}</div>
+                                <div class="${mainFieldClass}">${mainField}</div>
                             </div>
                         </div>
                     </div>
@@ -1998,17 +2026,20 @@
 
                 const { cards, currentIndex } = this.testMode;
                 const currentRule = cards[currentIndex];
-                const isPrefix = this.currentTheme === 'prefixes';
 
                 const card = document.getElementById('card');
-                const extraField = isPrefix ?
-                    (currentRule.examples ? `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '') :
-                    (currentRule.exceptions ? `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '');
+                // Формируем блоки исключений и примеров
+                const exceptionsField = currentRule.exceptions ?
+                    `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '';
+                const examplesField = currentRule.examples ?
+                    `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '';
+                const notesBlock = (exceptionsField || examplesField) ?
+                    `<div class="card-notes">${exceptionsField}${examplesField}</div>` : '';
 
                 card.innerHTML += `
                     <div class="card-face card-back" style="position: relative; backface-visibility: visible;">
                         <div class="card-rule">${currentRule.rule}</div>
-                        ${extraField}
+                        ${notesBlock}
                     </div>
                 `;
 
@@ -2050,6 +2081,7 @@
 
                 const mistakes = answers.filter(a => !a.correct);
                 const isPrefix = this.currentTheme === 'prefixes';
+                const isRoot = this.currentTheme === 'roots';
 
                 const cardArea = document.getElementById('cardArea');
                 cardArea.innerHTML = `
@@ -2062,7 +2094,7 @@
                                 <h3>Ошибки (${mistakes.length}):</h3>
                                 <ul>
                                     ${mistakes.map(m => {
-                                        const title = isPrefix ? m.rule.prefix : m.rule.suffix;
+                                        const title = isRoot ? m.rule.root : (isPrefix ? m.rule.prefix : m.rule.suffix);
                                         return `<li>${title} — ${m.rule.type}</li>`;
                                     }).join('')}
                                 </ul>
