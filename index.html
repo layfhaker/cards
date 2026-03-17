@@ -249,6 +249,14 @@
             border-color: #8b5cf6;
         }
 
+        .theme-card.nounGenders {
+            border-color: #d97706;
+        }
+
+        .theme-card.articleCases {
+            border-color: #2563eb;
+        }
+
         .theme-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
@@ -404,7 +412,7 @@
             background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card) 100%);
         }
 
-        .card-suffix, .card-prefix, .card-root {
+        .card-suffix, .card-prefix, .card-root, .card-indicator, .card-prompt {
             font-family: 'Cormorant Garamond', serif;
             font-size: 4rem;
             font-weight: 700;
@@ -413,8 +421,12 @@
             letter-spacing: 0.05em;
         }
 
-        .card-root {
+        .card-root, .card-indicator {
             font-size: 2.5rem;
+        }
+
+        .card-prompt {
+            font-size: 2.2rem;
         }
 
         .card-type {
@@ -1014,8 +1026,12 @@
                 padding: 2rem;
             }
 
-            .card-suffix, .card-prefix {
+            .card-suffix, .card-prefix, .card-indicator {
                 font-size: 3rem;
+            }
+
+            .card-prompt {
+                font-size: 1.8rem;
             }
 
             .controls {
@@ -1515,6 +1531,16 @@
                 this.render();
             }
 
+            getMainField(rule) {
+                switch (this.currentTheme) {
+                    case 'roots': return { value: rule.root, cssClass: 'card-root' };
+                    case 'prefixes': return { value: rule.prefix, cssClass: 'card-prefix' };
+                    case 'nounGenders': return { value: rule.indicator, cssClass: 'card-indicator' };
+                    case 'articleCases': return { value: rule.prompt, cssClass: 'card-prompt' };
+                    default: return { value: rule.suffix, cssClass: 'card-suffix' };
+                }
+            }
+
             backToThemes() {
                 this.currentTheme = null;
                 this.closeMenu();
@@ -1595,8 +1621,6 @@
                     .sort((a, b) => b.stats.incorrect - a.stats.incorrect)
                     .slice(0, 5);
 
-                const isRoot = this.currentTheme === 'roots';
-
                 const content = document.getElementById('statisticsContent');
                 content.innerHTML = `
                     <h2>Статистика: ${theme.name}</h2>
@@ -1659,7 +1683,7 @@
                         <div class="problem-cards-list">
                             <h3>Топ-5 проблемных правил</h3>
                             ${problemCards.map(card => {
-                                const title = isRoot ? card.root : (card.suffix || card.prefix);
+                                const title = this.getMainField(card).value;
                                 return `
                                     <div class="problem-card-item">
                                         <span>${title}</span>
@@ -1784,10 +1808,7 @@
                     this.autoFlipTimer = null;
                 }
 
-                const isPrefix = this.currentTheme === 'prefixes';
-                const isRoot = this.currentTheme === 'roots';
-                const mainField = isRoot ? currentRule.root : (isPrefix ? currentRule.prefix : currentRule.suffix);
-                const mainFieldClass = isRoot ? 'card-root' : (isPrefix ? 'card-prefix' : 'card-suffix');
+                const { value: mainField, cssClass: mainFieldClass } = this.getMainField(currentRule);
 
                 // Формируем блоки исключений и примеров
                 const exceptionsField = currentRule.exceptions ?
@@ -1986,10 +2007,7 @@
                 }
 
                 const currentRule = cards[currentIndex];
-                const isPrefix = this.currentTheme === 'prefixes';
-                const isRoot = this.currentTheme === 'roots';
-                const mainField = isRoot ? currentRule.root : (isPrefix ? currentRule.prefix : currentRule.suffix);
-                const mainFieldClass = isRoot ? 'card-root' : (isPrefix ? 'card-prefix' : 'card-suffix');
+                const { value: mainField, cssClass: mainFieldClass } = this.getMainField(currentRule);
 
                 cardArea.innerHTML = `
                     <div class="card-progress">
@@ -2080,8 +2098,6 @@
                 const percentage = Math.round((correctCount / totalCount) * 100);
 
                 const mistakes = answers.filter(a => !a.correct);
-                const isPrefix = this.currentTheme === 'prefixes';
-                const isRoot = this.currentTheme === 'roots';
 
                 const cardArea = document.getElementById('cardArea');
                 cardArea.innerHTML = `
@@ -2094,7 +2110,7 @@
                                 <h3>Ошибки (${mistakes.length}):</h3>
                                 <ul>
                                     ${mistakes.map(m => {
-                                        const title = isRoot ? m.rule.root : (isPrefix ? m.rule.prefix : m.rule.suffix);
+                                        const title = this.getMainField(m.rule).value;
                                         return `<li>${title} — ${m.rule.type}</li>`;
                                     }).join('')}
                                 </ul>

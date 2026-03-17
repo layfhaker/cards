@@ -116,5 +116,86 @@ const themesData = {
       { root: "РАВН - РОВН", type: "Тип 4", rule: "РАВН = «одинаковый, сходный по величине, качеству, достоинству»; РОВН = «ровный, гладкий».", exceptions: "РАВНИНА, РАВНЕНИЕ, УРОВЕНЬ, ПОРОВНУ, РОВЕСНИК", examples: "урАвнять в правах, сравнить числа; зарОвнять яму, подрОвнять волосы" },
       { root: "ПЛАВ - ПЛОВ - ПЛЫВ", type: "Тип 4", rule: "ПЛОВ — только в слове ПЛОВЕЦ, ПЛОВЧИХА; ПЛЫВ — в слове ПЛЫВУНЫ (= слои почвы); В остальных словах — ПЛАВ.", exceptions: "", examples: "плОвец, плОвчиха; плЫвуны (= слои почвы); поплАвок, жук-плАвунец, плАвучий" }
     ]
+  },
+  "nounGenders": {
+    name: "Рода существительных",
+    icon: "🇩🇪",
+    color: "#d97706",
+    rules: [
+      // Суффиксы → der (мужской род)
+      { indicator: "-er", type: "Суффиксы", rule: "→ der (мужской род)", examples: "der Lehrer, der Computer, der Drucker", exceptions: "die Mutter, die Tochter, das Fenster, das Wasser" },
+      { indicator: "-or", type: "Суффиксы", rule: "→ der (мужской род)", examples: "der Motor, der Doktor, der Professor" },
+      { indicator: "-ist", type: "Суффиксы", rule: "→ der (мужской род)", examples: "der Tourist, der Journalist, der Optimist" },
+      { indicator: "-ling", type: "Суффиксы", rule: "→ der (мужской род)", examples: "der Frühling, der Schmetterling, der Lehrling" },
+
+      // Суффиксы → die (женский род)
+      { indicator: "-in", type: "Суффиксы", rule: "→ die (женский род)", examples: "die Lehrerin, die Ärztin, die Freundin" },
+      { indicator: "-ung", type: "Суффиксы", rule: "→ die (женский род)", examples: "die Zeitung, die Wohnung, die Übung" },
+      { indicator: "-keit", type: "Суффиксы", rule: "→ die (женский род)", examples: "die Möglichkeit, die Schwierigkeit, die Dankbarkeit" },
+      { indicator: "-heit", type: "Суффиксы", rule: "→ die (женский род)", examples: "die Freiheit, die Gesundheit, die Schönheit" },
+      { indicator: "-ie", type: "Суффиксы", rule: "→ die (женский род)", examples: "die Energie, die Philosophie, die Demokratie" },
+      { indicator: "-schaft", type: "Суффиксы", rule: "→ die (женский род)", examples: "die Freundschaft, die Wirtschaft, die Wissenschaft" },
+
+      // Суффиксы → das (средний род)
+      { indicator: "-chen", type: "Суффиксы", rule: "→ das (средний род). ВСЕГДА neutrum!", examples: "das Mädchen, das Brötchen, das Häuschen" },
+      { indicator: "-lein", type: "Суффиксы", rule: "→ das (средний род)", examples: "das Büchlein, das Fräulein, das Männlein" },
+      { indicator: "-ment", type: "Суффиксы", rule: "→ das (средний род)", examples: "das Dokument, das Instrument, das Experiment" },
+      { indicator: "-um", type: "Суффиксы", rule: "→ das (средний род)", examples: "das Museum, das Studium, das Datum" },
+      { indicator: "Ge-", type: "Приставки", rule: "→ das (средний род). Существительные с приставкой Ge- обычно среднего рода.", examples: "das Gebäude, das Gespräch, das Getränk", exceptions: "der Gedanke, die Geschichte" },
+
+      // Семантика → der
+      { indicator: "Дни недели", type: "Семантика", rule: "→ der (мужской род). Все дни недели — мужского рода.", examples: "der Montag, der Dienstag, der Mittwoch, der Freitag" },
+      { indicator: "Месяцы", type: "Семантика", rule: "→ der (мужской род). Все месяцы — мужского рода.", examples: "der Januar, der Februar, der März, der Dezember" },
+      { indicator: "Времена года", type: "Семантика", rule: "→ der (мужской род). Все времена года — мужского рода.", examples: "der Frühling, der Sommer, der Herbst, der Winter" },
+      { indicator: "Стороны света", type: "Семантика", rule: "→ der (мужской род). Все стороны света — мужского рода.", examples: "der Norden, der Süden, der Osten, der Westen" },
+      { indicator: "Погодные явления", type: "Семантика", rule: "→ der (мужской род). Погодные явления — обычно мужского рода.", examples: "der Regen, der Schnee, der Wind, der Nebel", exceptions: "die Wolke, das Eis" },
+      { indicator: "Алкогольные напитки", type: "Семантика", rule: "→ der (мужской род). Алкогольные напитки — обычно мужского рода.", examples: "der Wein, der Wodka, der Schnaps, der Champagner", exceptions: "das Bier" },
+
+      // Семантика → die
+      { indicator: "Числа как существительные", type: "Семантика", rule: "→ die (женский род). Числа, используемые как существительные — женского рода.", examples: "die Null, die Eins, die Zwei, die Zehn" },
+      { indicator: "Деревья", type: "Семантика", rule: "→ die (женский род). Большинство деревьев — женского рода.", examples: "die Eiche, die Birke, die Tanne, die Linde", exceptions: "der Ahorn, der Baum" },
+      { indicator: "Цветы", type: "Семантика", rule: "→ die (женский род). Большинство цветов — женского рода.", examples: "die Rose, die Tulpe, die Lilie, die Nelke" },
+
+      // Семантика → das
+      { indicator: "Металлы", type: "Семантика", rule: "→ das (средний род). Металлы — обычно среднего рода.", examples: "das Gold, das Silber, das Eisen, das Kupfer", exceptions: "der Stahl" },
+      { indicator: "Страны и континенты", type: "Семантика", rule: "→ das (средний род). Большинство стран и все континенты — среднего рода (без артикля).", examples: "(das) Deutschland, (das) Russland, (das) Amerika", exceptions: "die Schweiz, die Türkei, der Irak, die USA (Pl.)" },
+      { indicator: "Города, языки, буквы", type: "Семантика", rule: "→ das (средний род). Города, языки и буквы — среднего рода.", examples: "das Berlin, das Deutsch, das A" }
+    ]
+  },
+  "articleCases": {
+    name: "Артикли по падежам",
+    icon: "📋",
+    color: "#2563eb",
+    rules: [
+      // Определённый артикль — Maskulinum (der)
+      { prompt: "der → Akkusativ", type: "Определённый артикль (m)", rule: "den", examples: "NOM: der → AKK: den → DAT: dem → GEN: des" },
+      { prompt: "der → Dativ", type: "Определённый артикль (m)", rule: "dem", examples: "NOM: der → AKK: den → DAT: dem → GEN: des" },
+      { prompt: "der → Genitiv", type: "Определённый артикль (m)", rule: "des", examples: "NOM: der → AKK: den → DAT: dem → GEN: des" },
+
+      // Определённый артикль — Femininum (die)
+      { prompt: "die → Akkusativ", type: "Определённый артикль (f)", rule: "die", examples: "NOM: die → AKK: die → DAT: der → GEN: der" },
+      { prompt: "die → Dativ", type: "Определённый артикль (f)", rule: "der", examples: "NOM: die → AKK: die → DAT: der → GEN: der" },
+      { prompt: "die → Genitiv", type: "Определённый артикль (f)", rule: "der", examples: "NOM: die → AKK: die → DAT: der → GEN: der" },
+
+      // Определённый артикль — Neutrum (das)
+      { prompt: "das → Akkusativ", type: "Определённый артикль (n)", rule: "das", examples: "NOM: das → AKK: das → DAT: dem → GEN: des" },
+      { prompt: "das → Dativ", type: "Определённый артикль (n)", rule: "dem", examples: "NOM: das → AKK: das → DAT: dem → GEN: des" },
+      { prompt: "das → Genitiv", type: "Определённый артикль (n)", rule: "des", examples: "NOM: das → AKK: das → DAT: dem → GEN: des" },
+
+      // Неопределённый артикль — Maskulinum (ein)
+      { prompt: "ein (m) → Akkusativ", type: "Неопределённый артикль (m)", rule: "einen", examples: "NOM: ein → AKK: einen → DAT: einem → GEN: eines" },
+      { prompt: "ein (m) → Dativ", type: "Неопределённый артикль (m)", rule: "einem", examples: "NOM: ein → AKK: einen → DAT: einem → GEN: eines" },
+      { prompt: "ein (m) → Genitiv", type: "Неопределённый артикль (m)", rule: "eines", examples: "NOM: ein → AKK: einen → DAT: einem → GEN: eines" },
+
+      // Неопределённый артикль — Femininum (eine)
+      { prompt: "eine → Akkusativ", type: "Неопределённый артикль (f)", rule: "eine", examples: "NOM: eine → AKK: eine → DAT: einer → GEN: einer" },
+      { prompt: "eine → Dativ", type: "Неопределённый артикль (f)", rule: "einer", examples: "NOM: eine → AKK: eine → DAT: einer → GEN: einer" },
+      { prompt: "eine → Genitiv", type: "Неопределённый артикль (f)", rule: "einer", examples: "NOM: eine → AKK: eine → DAT: einer → GEN: einer" },
+
+      // Неопределённый артикль — Neutrum (ein)
+      { prompt: "ein (n) → Akkusativ", type: "Неопределённый артикль (n)", rule: "ein", examples: "NOM: ein → AKK: ein → DAT: einem → GEN: eines" },
+      { prompt: "ein (n) → Dativ", type: "Неопределённый артикль (n)", rule: "einem", examples: "NOM: ein → AKK: ein → DAT: einem → GEN: eines" },
+      { prompt: "ein (n) → Genitiv", type: "Неопределённый артикль (n)", rule: "eines", examples: "NOM: ein → AKK: ein → DAT: einem → GEN: eines" }
+    ]
   }
 };
