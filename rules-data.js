@@ -3,6 +3,7 @@ const themesData = {
     name: "Суффиксы",
     icon: "📝",
     color: "#e8b34f",
+    language: "russian",
     rules: [
       // Прилагательные
       { suffix: "-ИВ-, -ЕВ-", type: "Прилагательные", rule: "Под ударением пишется -ИВ-. Без ударения пишется -ЕВ-.", exceptions: "МИЛОСТИВЫЙ, ЮРОДИВЫЙ" },
@@ -39,6 +40,7 @@ const themesData = {
     name: "Приставки",
     icon: "🔤",
     color: "#5a9d6b",
+    language: "russian",
     rules: [
       // 1. Неизменяемые приставки
       { prefix: "неизменяемые приставки:", type: "Приставки на согласные", rule: "Над, Под, Об, От, Пред, Близ: Пишутся всегда одинаково, независимо от произношения.", examples: "НАДПИЛИТЬ, ПОДТВЕРДИТЬ, ОБСЫПАТЬ, ОТДЕЛАТЬ, ПРЕДПОСЛЕДНИЙ, БЛИЗСИДЯЩИЙ" },
@@ -94,6 +96,7 @@ const themesData = {
     name: "Корни с чередованием",
     icon: "🌿",
     color: "#8b5cf6",
+    language: "russian",
     rules: [
       // Тип 1: Зависят от ударения
       { root: "ГАР - ГОР", type: "Тип 1", rule: "Под ударением пишется А, без ударения — О.", exceptions: "ПРИГАРЬ, ВЫГАРКИ, ИЗГАРЬ", examples: "загАр (уд.), загОрелый (без уд.), загОрать (без уд.)" },
@@ -121,6 +124,7 @@ const themesData = {
     name: "Рода существительных",
     icon: "🇩🇪",
     color: "#d97706",
+    language: "german",
     rules: [
       // Суффиксы → der (мужской род)
       { indicator: "-er", type: "Суффиксы", rule: "→ der (мужской род)", examples: "der Lehrer, der Computer, der Drucker", exceptions: "die Mutter, die Tochter, das Fenster, das Wasser" },
@@ -166,6 +170,7 @@ const themesData = {
     name: "Частицы НЕ и НИ",
     icon: "✍️",
     color: "#c0392b",
+    language: "russian",
     rules: [
       // ЧАСТИЦА НЕ
       {
@@ -278,6 +283,7 @@ const themesData = {
     name: "Артикли по падежам",
     icon: "📋",
     color: "#2563eb",
+    language: "german",
     rules: [
       // Определённый артикль — Maskulinum (der)
       { prompt: "der → Akkusativ", type: "Определённый артикль (m)", rule: "den", examples: "NOM: der → AKK: den → DAT: dem → GEN: des" },
@@ -308,6 +314,63 @@ const themesData = {
       { prompt: "ein (n) → Akkusativ", type: "Неопределённый артикль (n)", rule: "ein", examples: "NOM: ein → AKK: ein → DAT: einem → GEN: eines" },
       { prompt: "ein (n) → Dativ", type: "Неопределённый артикль (n)", rule: "einem", examples: "NOM: ein → AKK: ein → DAT: einem → GEN: eines" },
       { prompt: "ein (n) → Genitiv", type: "Неопределённый артикль (n)", rule: "eines", examples: "NOM: ein → AKK: ein → DAT: einem → GEN: eines" }
+    ]
+  },
+  "frequentWords": {
+    name: "Частотные слова",
+    icon: "📚",
+    color: "#10b981",
+    language: "german",
+    rules: [
+      // Модуль 1 — Рода существительных
+      // Maskulin (der) — синий
+      { word: "der Mann", type: "Maskulin (der)", rule: "мужчина", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Freund", type: "Maskulin (der)", rule: "друг", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Lehrer", type: "Maskulin (der)", rule: "учитель", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Tisch", type: "Maskulin (der)", rule: "стол", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Stuhl", type: "Maskulin (der)", rule: "стул", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Hund", type: "Maskulin (der)", rule: "собака", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Computer", type: "Maskulin (der)", rule: "компьютер", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Tag", type: "Maskulin (der)", rule: "день", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Name", type: "Maskulin (der)", rule: "имя", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Arzt", type: "Maskulin (der)", rule: "врач", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Bruder", type: "Maskulin (der)", rule: "брат", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Vater", type: "Maskulin (der)", rule: "отец", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Morgen", type: "Maskulin (der)", rule: "утро", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Abend", type: "Maskulin (der)", rule: "вечер", examples: "Модуль 1 — Рода существительных" },
+      { word: "der Monat", type: "Maskulin (der)", rule: "месяц", examples: "Модуль 1 — Рода существительных" },
+      // Feminin (die) — красный
+      { word: "die Frau", type: "Feminin (die)", rule: "женщина", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Freundin", type: "Feminin (die)", rule: "подруга", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Schule", type: "Feminin (die)", rule: "школа", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Lampe", type: "Feminin (die)", rule: "лампа", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Tür", type: "Feminin (die)", rule: "дверь", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Katze", type: "Feminin (die)", rule: "кошка", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Tasche", type: "Feminin (die)", rule: "сумка", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Nacht", type: "Feminin (die)", rule: "ночь", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Stadt", type: "Feminin (die)", rule: "город", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Musik", type: "Feminin (die)", rule: "музыка", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Schwester", type: "Feminin (die)", rule: "сестра", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Mutter", type: "Feminin (die)", rule: "мать", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Zeitung", type: "Feminin (die)", rule: "газета", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Wohnung", type: "Feminin (die)", rule: "квартира", examples: "Модуль 1 — Рода существительных" },
+      { word: "die Arbeit", type: "Feminin (die)", rule: "работа", examples: "Модуль 1 — Рода существительных" },
+      // Neutrum (das) — зелёный
+      { word: "das Kind", type: "Neutrum (das)", rule: "ребёнок", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Mädchen", type: "Neutrum (das)", rule: "девочка", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Buch", type: "Neutrum (das)", rule: "книга", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Fenster", type: "Neutrum (das)", rule: "окно", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Haus", type: "Neutrum (das)", rule: "дом", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Auto", type: "Neutrum (das)", rule: "машина", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Handy", type: "Neutrum (das)", rule: "телефон", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Jahr", type: "Neutrum (das)", rule: "год", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Land", type: "Neutrum (das)", rule: "страна", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Wasser", type: "Neutrum (das)", rule: "вода", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Zimmer", type: "Neutrum (das)", rule: "комната", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Geld", type: "Neutrum (das)", rule: "деньги", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Problem", type: "Neutrum (das)", rule: "проблема", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Spiel", type: "Neutrum (das)", rule: "игра", examples: "Модуль 1 — Рода существительных" },
+      { word: "das Essen", type: "Neutrum (das)", rule: "еда", examples: "Модуль 1 — Рода существительных" }
     ]
   }
 };
