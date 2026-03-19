@@ -191,6 +191,105 @@
             font-size: 1rem;
         }
 
+        /* Language Selection Screen */
+        .language-selection {
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .language-selection h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .language-selection .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .language-btn {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid transparent;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+        }
+
+        .language-btn.russian {
+            border-color: #c0392b;
+        }
+
+        .language-btn.german {
+            border-color: #2563eb;
+        }
+
+        .language-btn-flag {
+            font-size: 4rem;
+            line-height: 1;
+        }
+
+        .language-btn-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .language-btn-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .theme-selection-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            margin-bottom: 1.5rem;
+            font-family: 'Source Sans 3', sans-serif;
+            transition: color 0.2s;
+        }
+
+        .theme-selection-back:hover {
+            color: var(--text-primary);
+        }
+
         /* Theme Selection Screen */
         .theme-selection {
             padding: 2rem 1rem;
@@ -259,6 +358,10 @@
 
         .theme-card.articleCases {
             border-color: #2563eb;
+        }
+
+        .theme-card.frequentWords {
+            border-color: #10b981;
         }
 
         .theme-icon {
@@ -1085,10 +1188,31 @@
     </style>
 </head>
 <body>
+    <!-- Language Selection Screen -->
+    <div id="languageSelectionScreen" class="screen active">
+        <div class="language-selection">
+            <h1>Карточки</h1>
+            <p class="subtitle">Выберите язык для изучения</p>
+            <div class="language-grid">
+                <div class="language-btn russian" onclick="app.selectLanguage('russian')">
+                    <div class="language-btn-flag">🇷🇺</div>
+                    <div class="language-btn-name">Русский язык</div>
+                    <div class="language-btn-desc">Правила орфографии</div>
+                </div>
+                <div class="language-btn german" onclick="app.selectLanguage('german')">
+                    <div class="language-btn-flag">🇩🇪</div>
+                    <div class="language-btn-name">Немецкий язык</div>
+                    <div class="language-btn-desc">Грамматика и лексика</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Theme Selection Screen -->
-    <div id="themeSelectionScreen" class="screen active">
+    <div id="themeSelectionScreen" class="screen">
         <div class="theme-selection">
-            <h1>Правила русского языка</h1>
+            <button class="theme-selection-back" onclick="app.backToLanguageSelection()">← Назад к выбору языка</button>
+            <h1 id="themeSelectionTitle">Выберите тему</h1>
             <p class="subtitle">Выберите тему для изучения</p>
             <div class="theme-grid" id="themeGrid"></div>
         </div>
@@ -1271,6 +1395,7 @@
         class FlashcardApp {
             constructor() {
                 this.currentTheme = null;
+                this.currentLanguage = null;
                 this.currentIndex = 0;
                 this.isFlipped = false;
                 this.studyMode = 'normal';
@@ -1294,7 +1419,6 @@
 
                 this.loadSettings();
                 this.loadAllProgress();
-                this.renderThemeSelection();
                 this.attachGlobalEventListeners();
             }
 
@@ -1505,6 +1629,20 @@
                 event.target.value = '';
             }
 
+            // Language Selection
+            selectLanguage(lang) {
+                this.currentLanguage = lang;
+                const titles = { russian: 'Русский язык', german: 'Немецкий язык' };
+                document.getElementById('themeSelectionTitle').textContent = titles[lang] || 'Выберите тему';
+                this.renderThemeSelection();
+                this.showScreen('themeSelectionScreen');
+            }
+
+            backToLanguageSelection() {
+                this.currentLanguage = null;
+                this.showScreen('languageSelectionScreen');
+            }
+
             // Theme Selection
             renderThemeSelection() {
                 const grid = document.getElementById('themeGrid');
@@ -1512,6 +1650,8 @@
 
                 Object.keys(themesData).forEach(themeId => {
                     const theme = themesData[themeId];
+                    if (this.currentLanguage && theme.language !== this.currentLanguage) return;
+
                     const totalRules = theme.rules.length;
                     const learnedRules = theme.rules.filter(r => r.group === 'learned').length;
 
@@ -1520,7 +1660,7 @@
                     card.innerHTML = `
                         <div class="theme-icon">${theme.icon}</div>
                         <div class="theme-name">${theme.name}</div>
-                        <div class="theme-stats">Всего правил: ${totalRules}</div>
+                        <div class="theme-stats">Всего карточек: ${totalRules}</div>
                         <div class="theme-progress">${learnedRules} из ${totalRules} изучено</div>
                     `;
                     card.onclick = () => this.selectTheme(themeId);
@@ -1550,6 +1690,7 @@
                     case 'nounGenders': return { value: rule.indicator, cssClass: 'card-indicator' };
                     case 'articleCases': return { value: rule.prompt, cssClass: 'card-prompt' };
                     case 'particles': return { value: rule.particle, cssClass: 'card-particle' };
+                    case 'frequentWords': return { value: rule.word, cssClass: 'card-prompt' };
                     default: return { value: rule.suffix, cssClass: 'card-suffix' };
                 }
             }
@@ -1824,8 +1965,11 @@
                 const { value: mainField, cssClass: mainFieldClass } = this.getMainField(currentRule);
 
                 // Формируем блоки исключений и примеров
-                const exceptionsLabel = this.currentTheme === 'particles' ? '' : '<strong>Исключения:</strong> ';
-                const examplesLabel = this.currentTheme === 'particles' ? '' : '<strong>Примеры:</strong> ';
+                const isVocab = this.currentTheme === 'frequentWords';
+                const flipHintText = isVocab ? 'Нажми, чтобы увидеть перевод' : 'Нажми, чтобы увидеть правило';
+                const noLabels = this.currentTheme === 'particles' || isVocab;
+                const exceptionsLabel = noLabels ? '' : '<strong>Исключения:</strong> ';
+                const examplesLabel = noLabels ? '' : '<strong>Примеры:</strong> ';
                 const exceptionsField = currentRule.exceptions ?
                     `<div class="card-exceptions">${exceptionsLabel}${currentRule.exceptions}</div>` : '';
                 const examplesField = currentRule.examples ?
@@ -1842,7 +1986,7 @@
                             <div class="card-face card-front">
                                 <div class="card-type">${currentRule.type}</div>
                                 <div class="${mainFieldClass}">${mainField}</div>
-                                <div class="flip-hint">Нажми, чтобы увидеть правило</div>
+                                <div class="flip-hint">${flipHintText}</div>
                             </div>
                             <div class="card-face card-back">
                                 <div class="card-rule">${currentRule.rule}</div>
