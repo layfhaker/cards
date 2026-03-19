@@ -249,6 +249,10 @@
             border-color: #8b5cf6;
         }
 
+        .theme-card.particles {
+            border-color: #c0392b;
+        }
+
         .theme-card.nounGenders {
             border-color: #d97706;
         }
@@ -412,7 +416,7 @@
             background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card) 100%);
         }
 
-        .card-suffix, .card-prefix, .card-root, .card-indicator, .card-prompt {
+        .card-suffix, .card-prefix, .card-root, .card-indicator, .card-prompt, .card-particle {
             font-family: 'Cormorant Garamond', serif;
             font-size: 4rem;
             font-weight: 700;
@@ -423,6 +427,10 @@
 
         .card-root, .card-indicator {
             font-size: 2.5rem;
+        }
+
+        .card-particle {
+            font-size: 2.2rem;
         }
 
         .card-prompt {
@@ -1030,6 +1038,10 @@
                 font-size: 3rem;
             }
 
+            .card-particle {
+                font-size: 1.8rem;
+            }
+
             .card-prompt {
                 font-size: 1.8rem;
             }
@@ -1537,6 +1549,7 @@
                     case 'prefixes': return { value: rule.prefix, cssClass: 'card-prefix' };
                     case 'nounGenders': return { value: rule.indicator, cssClass: 'card-indicator' };
                     case 'articleCases': return { value: rule.prompt, cssClass: 'card-prompt' };
+                    case 'particles': return { value: rule.particle, cssClass: 'card-particle' };
                     default: return { value: rule.suffix, cssClass: 'card-suffix' };
                 }
             }
@@ -1811,10 +1824,12 @@
                 const { value: mainField, cssClass: mainFieldClass } = this.getMainField(currentRule);
 
                 // Формируем блоки исключений и примеров
+                const exceptionsLabel = this.currentTheme === 'particles' ? '' : '<strong>Исключения:</strong> ';
+                const examplesLabel = this.currentTheme === 'particles' ? '' : '<strong>Примеры:</strong> ';
                 const exceptionsField = currentRule.exceptions ?
-                    `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '';
+                    `<div class="card-exceptions">${exceptionsLabel}${currentRule.exceptions}</div>` : '';
                 const examplesField = currentRule.examples ?
-                    `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '';
+                    `<div class="card-examples">${examplesLabel}${currentRule.examples}</div>` : '';
                 const notesBlock = (exceptionsField || examplesField) ?
                     `<div class="card-notes">${exceptionsField}${examplesField}</div>` : '';
 
@@ -2047,10 +2062,12 @@
 
                 const card = document.getElementById('card');
                 // Формируем блоки исключений и примеров
+                const exceptionsLabel = this.currentTheme === 'particles' ? '' : '<strong>Исключения:</strong> ';
+                const examplesLabel = this.currentTheme === 'particles' ? '' : '<strong>Примеры:</strong> ';
                 const exceptionsField = currentRule.exceptions ?
-                    `<div class="card-exceptions"><strong>Исключения:</strong> ${currentRule.exceptions}</div>` : '';
+                    `<div class="card-exceptions">${exceptionsLabel}${currentRule.exceptions}</div>` : '';
                 const examplesField = currentRule.examples ?
-                    `<div class="card-examples"><strong>Примеры:</strong> ${currentRule.examples}</div>` : '';
+                    `<div class="card-examples">${examplesLabel}${currentRule.examples}</div>` : '';
                 const notesBlock = (exceptionsField || examplesField) ?
                     `<div class="card-notes">${exceptionsField}${examplesField}</div>` : '';
 
